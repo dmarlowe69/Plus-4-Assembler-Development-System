@@ -1,0 +1,14 @@
+
+C:\Users\Denton\Desktop\MADS Plus 4 Assembler Plus 4\Crossref64tass>64tass pcrossref.asm -L pcrossref.lst -o pcrossref.prg  
+64tass Turbo Assembler Macro V1.53.1515
+64TASS comes with ABSOLUTELY NO WARRANTY; This is free software, and you
+are welcome to redistribute it under certain conditions; See LICENSE!
+
+Assembling file:   pcrossref.asm
+Assembling file:   crossref.asm
+Error messages:    None
+Warning messages:  None
+Passes:            3
+Memory range:      $1001-$15a7   $05a7
+
+C:\Users\Denton\Desktop\MADS Plus 4 Assembler Plus 4\Crossref64tass>rem pause 

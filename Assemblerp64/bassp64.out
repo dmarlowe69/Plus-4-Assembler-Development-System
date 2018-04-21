@@ -1,0 +1,16 @@
+
+C:\Users\Denton\Desktop\bass64p\bass64 tass>64tass bassp64.asm -L bassp64.lst -o bassp64.prg  
+64tass Turbo Assembler Macro V1.53.1515
+64TASS comes with ABSOLUTELY NO WARRANTY; This is free software, and you
+are welcome to redistribute it under certain conditions; See LICENSE!
+
+Assembling file:   bassp64.asm
+Assembling file:   assp64.asm
+Assembling file:   assvartab64.asm
+Assembling file:   asstable64.asm
+Error messages:    None
+Warning messages:  None
+Passes:            3
+Memory range:      $1001-$35f0   $25f0
+
+C:\Users\Denton\Desktop\bass64p\bass64 tass>rem pause 

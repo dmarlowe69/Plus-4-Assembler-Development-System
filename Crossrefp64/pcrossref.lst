@@ -1,0 +1,683 @@
+
+; 64tass Turbo Assembler Macro V1.53.1515 listing file
+; 64tass -L pcrossref.lst -o pcrossref.prg pcrossref.asm
+; Tue Dec 19 21:23:47 2017
+
+;Offset	;Hex		;Monitor	;Source
+
+;******  Processing input file: pcrossref.asm
+
+=1					BSTUB = 1
+>1001	0d 10				 .WORD BASIC    ;LINE LINK POINTER
+>1003	0a 00				 .BYTE $0A,$00  ;LINE NUMBER (10)
+>1005	9e				 .BYTE 158      ;SYS COMMAND TOKEN
+>1006	28 34 31 31 31 29		 .TEXT '(4111)' ;CALL TO $080F
+>100c	00				 .BYTE $00      ;END OF LINE
+.100d					BASIC
+>100d	00 00				 .BYTE $00,$00  ;END OF BASIC
+
+;******  Processing file: crossref.asm
+
+=$0003					ADRAY1=$0003
+=$0005					ADRAY2=$0005
+=$0007					CHARAC=$0007
+=$0008					ENDCHR=$0008
+=$0009					TRMPOS=$0009
+=$000a					VERCK =$000A
+=$000b					COUNT =$000B
+=$000c					DIMFLG=$000C
+=$000d					VALTYP=$000D
+=$000e					INTFLG=$000E
+=$000f					GARBFL=$000F
+=$0010					SUBFLG=$0010
+=$0011					INPFLG=$0011
+=$0012					TANSGN=$0012
+=$0013					CHANNL=$0013
+=$0014					LINNUM=$0014
+=$0016					TEMPPT=$0016
+=$0017					LASTPT=$0017
+=$0019					TEMPST=$0019
+=$04					XRLPNT = $04
+=$06					XRFPNT = $06
+=$d011					SCREG=$D011
+=$e386					BASSFT=$E386 ;RETURN TO BASIC
+=$ffd2					PRTCHR=$FFD2 ;$E716 ;PRINT CHAR TO SCREEN
+=$ffba					SETLFS=$FFBA
+=$ffbd					SETNAM=$FFBD
+=$ffc0					OPEN=$FFC0
+=$ffc3					CLOSE=$FFC3
+=$ffc6					CHKIN=$FFC6
+=$ffc9					CHKOUT=$FFC9
+=$ffcc					CLRCHN=$FFCC
+=$ffcf					CHRIN=$FFCF
+=$ffd2					CHROUT=$FFD2
+.100f	20 92 15	jsr $1592	XXREF  JSR SAVZPG
+.1012	4c 89 10	jmp $1089	       JMP XX0889
+>1015	aa aa aa aa aa aa		ZPGSTR .BYTE $AA,$AA,$AA,$AA,$AA,$AA
+>101b	aa aa aa aa aa aa		       .BYTE $AA,$AA,$AA,$AA,$AA,$AA
+>1021	aa aa aa aa aa aa		       .BYTE $AA,$AA,$AA,$AA,$AA,$AA
+>1027	aa aa aa aa aa aa		       .BYTE $AA,$AA,$AA,$AA,$AA,$AA
+>102d	aa				DEVIN  .BYTE $AA ;XX082D INPUT DEVICE
+>102e	aa				XX082E .BYTE $AA
+>102f	aa				XX082F .BYTE $AA
+>1030	aa				PRTFLG .BYTE $AA ;XX0830 HARDCOPY FLAG
+>1031	aa				XX0831 .BYTE $AA
+>1032	aa				XX0832 .BYTE $AA
+>1033	aa				XX0833 .BYTE $AA
+>1034	aa				XX0834 .BYTE $AA
+>1035	aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA
+>1039	aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA
+>103d	aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA
+>1041	aa				XX0841 .BYTE $AA
+>1042	aa aa				       .BYTE $AA,$AA
+>1044	aa				XRFFNM .BYTE $AA ;XX0844
+>1045	aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA
+>1049	aa				XX0849 .BYTE $AA
+>104a	aa aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA,$AA
+>104f	aa aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA,$AA
+>1054	aa				XX0854 .BYTE $AA
+>1055	aa				XX0855 .BYTE $AA
+>1056	aa				XX0856 .BYTE $AA
+>1057	aa				XX0857 .BYTE $AA
+>1058	aa				XX0858 .BYTE $AA
+>1059	aa aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA,$AA
+>105e	aa aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA,$AA
+>1063	aa aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA,$AA
+>1068	aa aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA,$AA
+>106d	aa aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA,$AA
+>1072	aa aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA,$AA
+>1077	aa aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA,$AA
+>107c	aa aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA,$AA
+>1081	aa aa aa aa aa			       .BYTE $AA,$AA,$AA,$AA,$AA
+>1086	aa aa aa			       .BYTE $AA,$AA,$AA
+.1089	d8		cld		XX0889 CLD
+.108a	a9 00		lda #$00	       LDA #$00
+.108c	8d 33 10	sta $1033	       STA XX0833
+.108f	8d 31 10	sta $1031	       STA XX0831
+.1092	8d 32 10	sta $1032	       STA XX0832
+.1095	ee 31 10	inc $1031	       INC XX0831
+.1098	8d 2d 10	sta $102d	       STA DEVIN
+.109b	85 18		sta $18		       STA $18
+.109d	85 19		sta $19		       STA $19
+.109f	a9 05		lda #$05	       LDA #$05
+.10a1	a2 00		ldx #$00	       LDX #$00
+.10a3	a0 ff		ldy #$ff	       LDY #$FF
+.10a5	20 ba ff	jsr $ffba	       JSR SETLFS
+.10a8	a9 00		lda #$00	       LDA #$00
+.10aa	20 bd ff	jsr $ffbd	       JSR SETNAM
+.10ad	20 c0 ff	jsr $ffc0	       JSR OPEN
+.10b0	a9 01		lda #$01	       LDA #$01
+.10b2	a2 03		ldx #$03	       LDX #$03
+.10b4	a0 ff		ldy #$ff	       LDY #$FF
+.10b6	20 ba ff	jsr $ffba	       JSR SETLFS
+.10b9	a9 00		lda #$00	       LDA #$00
+.10bb	20 bd ff	jsr $ffbd	       JSR SETNAM
+.10be	20 c0 ff	jsr $ffc0	       JSR OPEN
+.10c1	a9 93		lda #$93	       LDA #$93 ;SCREEN CLEAR
+.10c3	20 d2 ff	jsr $ffd2	       JSR CHROUT
+.10c6	a2 05		ldx #$05	       LDX #$05
+.10c8	8e 2d 10	stx $102d	       STX DEVIN
+.10cb	20 c6 ff	jsr $ffc6	       JSR CHKIN
+.10ce	a9 15		lda #$15	       LDA #>MESSG ;$0D
+.10d0	a0 11		ldy #$11	       LDY #<MESSG ;$13
+.10d2	20 7c 14	jsr $147c	       JSR XX0C7E
+.10d5	20 cf ff	jsr $ffcf	       JSR CHRIN
+.10d8	a2 00		ldx #$00	       LDX #$00
+.10da	8e 30 10	stx $1030	       STX PRTFLG
+.10dd	c9 4e		cmp #$4e	       CMP #$4E      ;'N'
+.10df	f0 02		beq $10e3	       BEQ XX08E3
+.10e1	a2 80		ldx #$80	       LDX #$80
+.10e3	8e 30 10	stx $1030	XX08E3 STX PRTFLG
+.10e6	a9 04		lda #$04	       LDA #$04
+.10e8	aa		tax		       TAX
+.10e9	a0 ff		ldy #$ff	       LDY #$FF
+.10eb	20 ba ff	jsr $ffba	       JSR SETLFS
+.10ee	a9 00		lda #$00	       LDA #$00
+.10f0	20 bd ff	jsr $ffbd	       JSR SETNAM
+.10f3	20 c0 ff	jsr $ffc0	       JSR OPEN
+.10f6	20 7b 15	jsr $157b	       JSR SCROFF
+.10f9	a9 0d		lda #$0d	       LDA #$0D
+.10fb	20 d2 ff	jsr $ffd2	       JSR CHROUT
+.10fe	a9 07		lda #$07	       LDA #$07
+.1100	a2 08		ldx #$08	       LDX #$08
+.1102	a0 0f		ldy #$0f	       LDY #$0F
+.1104	20 ba ff	jsr $ffba	       JSR SETLFS
+.1107	a9 49		lda #$49	       LDA #$49      ;'I'
+.1109	8d 57 10	sta $1057	       STA XX0857
+.110c	a9 30		lda #$30	       LDA #$30      ;'0'
+.110e	8d 58 10	sta $1058	       STA XX0858
+.1111	a2 57		ldx #$57	       LDX #<XX0857 ;#$57      ;'W'
+.1113	a0 10		ldy #$10	       LDY #>XX0857 ;#$08
+.1115	a9 02		lda #$02	       LDA #$02
+.1117	20 bd ff	jsr $ffbd	       JSR SETNAM
+.111a	20 c0 ff	jsr $ffc0	       JSR OPEN
+.111d	a9 00		lda #$00	       LDA #$00
+.111f	a0 02		ldy #$02	       LDY #$02
+.1121	8d 2e 10	sta $102e	       STA XX082E
+.1124	8c 2f 10	sty $102f	       STY XX082F
+.1127	a0 00		ldy #$00	       LDY #$00
+.1129	b9 49 15	lda $1549,y	XX0929 LDA XRFF00,Y ;XX0D4B
+.112c	99 44 10	sta $1044,y	       STA XRFFNM,Y ;XX0844
+.112f	c8		iny		       INY
+.1130	c0 0e		cpy #$0e	       CPY #$0E
+.1132	d0 f5		bne $1129	       BNE XX0929
+.1134	20 e2 14	jsr $14e2	       JSR XX0CE4
+.1137	20 cc ff	jsr $ffcc	       JSR CLRCHN
+.113a	a9 08		lda #$08	       LDA #$08
+.113c	aa		tax		       TAX
+.113d	a8		tay		       TAY
+.113e	20 ba ff	jsr $ffba	       JSR SETLFS
+.1141	a2 3b		ldx #$3b	       LDX #<XRLL00 ;$3D
+.1143	a0 15		ldy #$15	       LDY #>XRLL00 ;$0D
+.1145	a9 0e		lda #$0e	       LDA #$0E     ;14 CHARS
+.1147	20 bd ff	jsr $ffbd	       JSR SETNAM
+.114a	20 c0 ff	jsr $ffc0	       JSR OPEN
+.114d	20 25 14	jsr $1425	       JSR XX0C25
+.1150	a5 18		lda $18		XX0950 LDA $18
+.1152	a4 19		ldy $19		       LDY $19
+.1154	85 16		sta $16		       STA $16
+.1156	84 17		sty $17		       STY $17
+.1158	18		clc		       CLC
+.1159	a5 16		lda $16		       LDA $16
+.115b	6d 2e 10	adc $102e	       ADC XX082E
+.115e	85 18		sta $18		       STA $18
+.1160	a5 17		lda $17		       LDA $17
+.1162	6d 2f 10	adc $102f	       ADC XX082F
+.1165	85 19		sta $19		       STA $19
+.1167	a9 a8		lda #$a8	       LDA #<XX0DAA ;#$AA
+.1169	a0 15		ldy #$15	       LDY #>XX0DAA ;#$0D
+.116b	85 04		sta $04		       STA XRLPNT
+.116d	84 05		sty $05		       STY XRLPNT+1
+.116f	a9 a8		lda #$a8	       LDA #<XX15AA ;#$AA
+.1171	a0 1d		ldy #$1d	       LDY #>XX15AA ;#$15
+.1173	85 06		sta $06		       STA XRFPNT
+.1175	84 07		sty $07		       STY XRFPNT+1
+.1177	a5 04		lda $04		       LDA XRLPNT
+.1179	a4 05		ldy $05		       LDY XRLPNT+1
+.117b	85 0c		sta $0c		       STA $0C
+.117d	84 0d		sty $0d		       STY $0D
+.117f	a0 00		ldy #$00	       LDY #$00
+.1181	98		tya		XX0981 TYA
+.1182	91 0c		sta ($0c),y	       STA ($0C),Y
+.1184	e6 0c		inc $0c		       INC $0C
+.1186	d0 02		bne $118a	       BNE XX098A
+.1188	e6 0d		inc $0d		       INC $0D
+.118a	a5 0d		lda $0d		XX098A LDA $0D
+.118c	c5 07		cmp $07		       CMP XRFPNT+1
+.118e	d0 f1		bne $1181	       BNE XX0981
+.1190	a5 0c		lda $0c		       LDA $0C
+.1192	c5 06		cmp $06		       CMP XRFPNT
+.1194	d0 eb		bne $1181	       BNE XX0981
+.1196	a0 0d		ldy #$0d	       LDY #$0D
+.1198	b9 44 10	lda $1044,y	XX0998 LDA XRFFNM,Y
+.119b	99 34 10	sta $1034,y	       STA XX0834,Y
+.119e	88		dey		       DEY
+.119f	10 f7		bpl $1198	       BPL XX0998
+.11a1	a9 52		lda #$52	       LDA #$52      ;'R'
+.11a3	8d 41 10	sta $1041	       STA XX0841
+.11a6	a2 04		ldx #$04	       LDX #$04
+.11a8	fe 49 10	inc $1049,x	XX09A8 INC XX0849,X
+.11ab	bd 49 10	lda $1049,x	       LDA XX0849,X
+.11ae	c9 3a		cmp #$3a	       CMP #$3A      ;':'
+.11b0	d0 08		bne $11ba	       BNE XX09BA
+.11b2	a9 30		lda #$30	       LDA #$30      ;'0'
+.11b4	9d 49 10	sta $1049,x	       STA XX0849,X
+.11b7	ca		dex		       DEX
+.11b8	d0 ee		bne $11a8	       BNE XX09A8
+.11ba	a9 09		lda #$09	XX09BA LDA #$09
+.11bc	a2 08		ldx #$08	       LDX #$08
+.11be	a8		tay		       TAY
+.11bf	20 ba ff	jsr $ffba	       JSR SETLFS
+.11c2	a2 34		ldx #$34	       LDX #<XX0834 ;#$34      ;'4'
+.11c4	a0 10		ldy #$10	       LDY #>XX0834 ;#$08
+.11c6	a9 0e		lda #$0e	       LDA #$0E
+.11c8	20 bd ff	jsr $ffbd	       JSR SETNAM
+.11cb	20 c0 ff	jsr $ffc0	       JSR OPEN
+.11ce	20 25 14	jsr $1425	       JSR XX0C25
+.11d1	a9 0a		lda #$0a	       LDA #$0A
+.11d3	a2 08		ldx #$08	       LDX #$08
+.11d5	a8		tay		       TAY
+.11d6	20 ba ff	jsr $ffba	       JSR SETLFS
+.11d9	a2 44		ldx #$44	       LDX #<XRFFNM ;#$44      ;'D'
+.11db	a0 10		ldy #$10	       LDY #>XRFFNM ;#$08
+.11dd	a9 0e		lda #$0e	       LDA #$0E
+.11df	20 bd ff	jsr $ffbd	       JSR SETNAM
+.11e2	20 c0 ff	jsr $ffc0	       JSR OPEN
+.11e5	20 25 14	jsr $1425	       JSR XX0C25
+.11e8	a9 00		lda #$00	       LDA #$00
+.11ea	85 15		sta $15		       STA $15
+.11ec	a2 09		ldx #$09	XX09EC LDX #$09
+.11ee	ec 2d 10	cpx $102d	       CPX DEVIN
+.11f1	f0 0b		beq $11fe	       BEQ XX09FE
+.11f3	8e 2d 10	stx $102d	       STX DEVIN
+.11f6	20 cc ff	jsr $ffcc	       JSR CLRCHN
+.11f9	a2 09		ldx #$09	       LDX #$09
+.11fb	20 c6 ff	jsr $ffc6	       JSR CHKIN
+.11fe	20 cf ff	jsr $ffcf	XX09FE JSR CHRIN
+.1201	85 08		sta $08		       STA $08
+.1203	20 cf ff	jsr $ffcf	       JSR CHRIN
+.1206	85 09		sta $09		       STA $09
+.1208	20 cf ff	jsr $ffcf	       JSR CHRIN
+.120b	85 0a		sta $0a		       STA $0A
+.120d	20 cf ff	jsr $ffcf	       JSR CHRIN
+.1210	85 0b		sta $0b		       STA $0B
+.1212	a5 90		lda $90		       LDA $90
+.1214	85 15		sta $15		       STA $15
+.1216	38		sec		       SEC
+.1217	a5 08		lda $08		       LDA $08
+.1219	e5 16		sbc $16		       SBC $16
+.121b	a5 09		lda $09		       LDA $09
+.121d	e5 17		sbc $17		       SBC $17
+.121f	90 0a		bcc $122b	       BCC XX0A2B
+.1221	a5 08		lda $08		       LDA $08
+.1223	e5 18		sbc $18		       SBC $18
+.1225	a5 09		lda $09		       LDA $09
+.1227	e5 19		sbc $19		       SBC $19
+.1229	90 22		bcc $124d	       BCC XX0A4D
+.122b	20 cc ff	jsr $ffcc	XX0A2B JSR CLRCHN
+.122e	a2 0a		ldx #$0a	       LDX #$0A
+.1230	8e 2d 10	stx $102d	       STX DEVIN
+.1233	20 c9 ff	jsr $ffc9	       JSR CHKOUT
+.1236	a5 08		lda $08		       LDA $08
+.1238	20 d2 ff	jsr $ffd2	       JSR CHROUT
+.123b	a5 09		lda $09		       LDA $09
+.123d	20 d2 ff	jsr $ffd2	       JSR CHROUT
+.1240	a5 0a		lda $0a		       LDA $0A
+.1242	20 d2 ff	jsr $ffd2	       JSR CHROUT
+.1245	a5 0b		lda $0b		       LDA $0B
+.1247	20 d2 ff	jsr $ffd2	       JSR CHROUT
+.124a	4c bb 12	jmp $12bb	       JMP XX0ABB
+.124d	38		sec		XX0A4D SEC
+.124e	a5 08		lda $08		       LDA $08
+.1250	e5 16		sbc $16		       SBC $16
+.1252	85 0c		sta $0c		       STA $0C
+.1254	a5 09		lda $09		       LDA $09
+.1256	e5 17		sbc $17		       SBC $17
+.1258	06 0c		asl $0c		       ASL $0C
+.125a	2a		rol a		       ROL A
+.125b	06 0c		asl $0c		       ASL $0C
+.125d	2a		rol a		       ROL A
+.125e	85 0d		sta $0d		       STA $0D
+.1260	18		clc		       CLC
+.1261	a5 0c		lda $0c		       LDA $0C
+.1263	65 04		adc $04		       ADC XRLPNT
+.1265	85 0c		sta $0c		       STA $0C
+.1267	a5 0d		lda $0d		       LDA $0D
+.1269	65 05		adc $05		       ADC XRLPNT+1
+.126b	85 0d		sta $0d		       STA $0D
+.126d	a0 01		ldy #$01	       LDY #$01
+.126f	b1 0c		lda ($0c),y	       LDA ($0C),Y
+.1271	d0 16		bne $1289	       BNE XX0A89
+.1273	88		dey		       DEY
+.1274	a5 06		lda $06		       LDA XRFPNT
+.1276	91 0c		sta ($0c),y	       STA ($0C),Y
+.1278	c8		iny		       INY
+.1279	a5 07		lda $07		       LDA XRFPNT+1
+.127b	91 0c		sta ($0c),y	       STA ($0C),Y
+.127d	c8		iny		       INY
+.127e	a5 06		lda $06		       LDA XRFPNT
+.1280	91 0c		sta ($0c),y	       STA ($0C),Y
+.1282	c8		iny		       INY
+.1283	a5 07		lda $07		       LDA XRFPNT+1
+.1285	91 0c		sta ($0c),y	       STA ($0C),Y
+.1287	d0 17		bne $12a0	       BNE XX0AA0
+.1289	88		dey		XX0A89 DEY
+.128a	b1 0c		lda ($0c),y	       LDA ($0C),Y
+.128c	85 0e		sta $0e		       STA $0E
+.128e	c8		iny		       INY
+.128f	b1 0c		lda ($0c),y	       LDA ($0C),Y
+.1291	85 0f		sta $0f		       STA $0F
+.1293	a5 07		lda $07		       LDA XRFPNT+1
+.1295	91 0c		sta ($0c),y	       STA ($0C),Y
+.1297	91 0e		sta ($0e),y	       STA ($0E),Y
+.1299	88		dey		       DEY
+.129a	a5 06		lda $06		       LDA XRFPNT
+.129c	91 0c		sta ($0c),y	       STA ($0C),Y
+.129e	91 0e		sta ($0e),y	       STA ($0E),Y
+.12a0	a0 01		ldy #$01	XX0AA0 LDY #$01
+.12a2	a9 00		lda #$00	       LDA #$00
+.12a4	91 06		sta ($06),y	       STA (XRFPNT),Y
+.12a6	c8		iny		       INY
+.12a7	a5 0a		lda $0a		       LDA $0A
+.12a9	91 06		sta ($06),y	       STA (XRFPNT),Y
+.12ab	c8		iny		       INY
+.12ac	a5 0b		lda $0b		       LDA $0B
+.12ae	91 06		sta ($06),y	       STA (XRFPNT),Y
+.12b0	18		clc		       CLC
+.12b1	a5 06		lda $06		       LDA XRFPNT
+.12b3	69 04		adc #$04	       ADC #$04
+.12b5	85 06		sta $06		       STA XRFPNT
+.12b7	90 02		bcc $12bb	       BCC XX0ABB
+.12b9	e6 07		inc $07		       INC XRFPNT+1
+.12bb	a5 15		lda $15		XX0ABB LDA $15
+.12bd	d0 03		bne $12c2	       BNE XX0AC2
+.12bf	4c ec 11	jmp $11ec	       JMP XX09EC
+.12c2	a9 09		lda #$09	XX0AC2 LDA #$09
+.12c4	20 c3 ff	jsr $ffc3	       JSR CLOSE
+.12c7	a9 0a		lda #$0a	       LDA #$0A
+.12c9	20 c3 ff	jsr $ffc3	       JSR CLOSE
+.12cc	a0 01		ldy #$01	XX0ACC LDY #$01
+.12ce	b1 04		lda ($04),y	       LDA (XRLPNT),Y
+.12d0	a0 03		ldy #$03	       LDY #$03
+.12d2	d1 04		cmp ($04),y	       CMP (XRLPNT),Y
+.12d4	d0 0e		bne $12e4	       BNE XX0AE4
+.12d6	a0 00		ldy #$00	       LDY #$00
+.12d8	b1 04		lda ($04),y	       LDA (XRLPNT),Y
+.12da	a0 02		ldy #$02	       LDY #$02
+.12dc	d1 04		cmp ($04),y	       CMP (XRLPNT),Y
+.12de	d0 04		bne $12e4	       BNE XX0AE4
+.12e0	a9 2a		lda #$2a	       LDA #$2A      ;'*'
+.12e2	d0 02		bne $12e6	       BNE XX0AE6
+.12e4	a9 20		lda #$20	XX0AE4 LDA #$20      ;' '
+.12e6	20 f8 13	jsr $13f8	XX0AE6 JSR PCHAR
+.12e9	20 f6 13	jsr $13f6	       JSR XX0BF6
+.12ec	a0 06		ldy #$06	       LDY #$06
+.12ee	20 8c 13	jsr $138c	XX0AEE JSR XX0B8C
+.12f1	20 f8 13	jsr $13f8	       JSR PCHAR
+.12f4	88		dey		       DEY
+.12f5	d0 f7		bne $12ee	       BNE XX0AEE
+.12f7	20 f6 13	jsr $13f6	       JSR XX0BF6
+.12fa	a9 24		lda #$24	       LDA #$24      ;'$'
+.12fc	20 f8 13	jsr $13f8	       JSR PCHAR
+.12ff	20 8c 13	jsr $138c	       JSR XX0B8C
+.1302	20 a7 14	jsr $14a7	       JSR XX0CA9
+.1305	20 8c 13	jsr $138c	       JSR XX0B8C
+.1308	a6 90		ldx $90		       LDX $90
+.130a	86 14		stx $14		       STX $14
+.130c	20 a7 14	jsr $14a7	       JSR XX0CA9
+.130f	a0 02		ldy #$02	       LDY #$02
+.1311	b1 04		lda ($04),y	       LDA (XRLPNT),Y
+.1313	aa		tax		       TAX
+.1314	c8		iny		       INY
+.1315	b1 04		lda ($04),y	       LDA (XRLPNT),Y
+.1317	86 0c		stx $0c		       STX $0C
+.1319	85 0d		sta $0d		       STA $0D
+.131b	d0 2c		bne $1349	       BNE XX0B49
+.131d	20 f6 13	jsr $13f6	XX0B1D JSR XX0BF6
+.1320	a0 02		ldy #$02	       LDY #$02
+.1322	b1 0c		lda ($0c),y	       LDA ($0C),Y
+.1324	aa		tax		       TAX
+.1325	c8		iny		       INY
+.1326	b1 0c		lda ($0c),y	       LDA ($0C),Y
+.1328	20 a1 13	jsr $13a1	       JSR XX0BA1
+.132b	a0 01		ldy #$01	       LDY #$01
+.132d	b1 0c		lda ($0c),y	       LDA ($0C),Y
+.132f	aa		tax		       TAX
+.1330	f0 1e		beq $1350	       BEQ XX0B50
+.1332	88		dey		       DEY
+.1333	b1 0c		lda ($0c),y	       LDA ($0C),Y
+.1335	85 0c		sta $0c		       STA $0C
+.1337	86 0d		stx $0d		       STX $0D
+.1339	ce 54 10	dec $1054	       DEC XX0854
+.133c	d0 df		bne $131d	       BNE XX0B1D
+.133e	20 d2 14	jsr $14d2	       JSR XX0CD4
+.1341	a2 07		ldx #$07	       LDX #$07
+.1343	20 f3 13	jsr $13f3	XX0B43 JSR XX0BF3
+.1346	ca		dex		       DEX
+.1347	d0 fa		bne $1343	       BNE XX0B43
+.1349	a0 0a		ldy #$0a	XX0B49 LDY #$0A
+.134b	8c 54 10	sty $1054	       STY XX0854
+.134e	d0 cd		bne $131d	       BNE XX0B1D
+.1350	20 d2 14	jsr $14d2	XX0B50 JSR XX0CD4
+.1353	a5 14		lda $14		       LDA $14
+.1355	d0 1f		bne $1376	       BNE XX0B76
+.1357	18		clc		       CLC
+.1358	a5 04		lda $04		       LDA XRLPNT
+.135a	69 04		adc #$04	       ADC #$04
+.135c	85 04		sta $04		       STA XRLPNT
+.135e	90 02		bcc $1362	       BCC XX0B62
+.1360	e6 05		inc $05		       INC XRLPNT+1
+.1362	38		sec		XX0B62 SEC
+.1363	a5 04		lda $04		       LDA XRLPNT
+.1365	e9 a8		sbc #$a8	       SBC #<XX15AA ;#$AA
+.1367	a5 05		lda $05		       LDA XRLPNT+1
+.1369	e9 1d		sbc #$1d	       SBC #>XX15AA ;#$15
+.136b	b0 03		bcs $1370	       BCS XX0B70
+.136d	4c cc 12	jmp $12cc	       JMP XX0ACC
+.1370	20 cc ff	jsr $ffcc	XX0B70 JSR CLRCHN
+.1373	4c 50 11	jmp $1150	       JMP XX0950
+.1376	20 bf 14	jsr $14bf	XX0B76 JSR XX0CC1
+.1379	20 bf 14	jsr $14bf	       JSR XX0CC1
+.137c	a9 04		lda #$04	       LDA #$04
+.137e	20 c3 ff	jsr $ffc3	       JSR CLOSE
+.1381	a9 08		lda #$08	       LDA #$08
+.1383	20 c3 ff	jsr $ffc3	       JSR CLOSE
+.1386	20 cc ff	jsr $ffcc	       JSR CLRCHN
+.1389	4c 75 14	jmp $1475	       JMP XX0C75
+.138c	a2 08		ldx #$08	XX0B8C LDX #$08
+.138e	ec 2d 10	cpx $102d	       CPX DEVIN
+.1391	f0 0b		beq $139e	       BEQ XX0B9E
+.1393	8e 2d 10	stx $102d	       STX DEVIN
+.1396	20 cc ff	jsr $ffcc	       JSR CLRCHN
+.1399	a2 08		ldx #$08	       LDX #$08
+.139b	20 c6 ff	jsr $ffc6	       JSR CHKIN
+.139e	4c cf ff	jmp $ffcf	XX0B9E JMP CHRIN
+.13a1	86 10		stx $10		XX0BA1 STX $10
+.13a3	85 11		sta $11		       STA $11
+.13a5	a9 00		lda #$00	       LDA #$00
+.13a7	8d 55 10	sta $1055	       STA XX0855
+.13aa	a2 04		ldx #$04	       LDX #$04
+.13ac	8e 56 10	stx $1056	       STX XX0856
+.13af	ae 56 10	ldx $1056	XX0BAF LDX XX0856
+.13b2	a0 30		ldy #$30	       LDY #$30      ;'0'
+.13b4	d0 04		bne $13ba	       BNE XX0BBA
+.13b6	c8		iny		XX0BB6 INY
+.13b7	8c 55 10	sty $1055	       STY XX0855
+.13ba	38		sec		XX0BBA SEC
+.13bb	a5 10		lda $10		       LDA $10
+.13bd	fd 71 15	sbc $1571,x	       SBC XX0D73,X
+.13c0	85 10		sta $10		       STA $10
+.13c2	a5 11		lda $11		       LDA $11
+.13c4	fd 76 15	sbc $1576,x	       SBC XX0D78,X
+.13c7	85 11		sta $11		       STA $11
+.13c9	b0 eb		bcs $13b6	       BCS XX0BB6
+.13cb	a5 10		lda $10		       LDA $10
+.13cd	7d 71 15	adc $1571,x	       ADC XX0D73,X
+.13d0	85 10		sta $10		       STA $10
+.13d2	a5 11		lda $11		       LDA $11
+.13d4	7d 76 15	adc $1576,x	       ADC XX0D78,X
+.13d7	85 11		sta $11		       STA $11
+.13d9	98		tya		       TYA
+.13da	c9 30		cmp #$30	       CMP #$30      ;'0'
+.13dc	d0 07		bne $13e5	       BNE XX0BE5
+.13de	ac 55 10	ldy $1055	       LDY XX0855
+.13e1	d0 02		bne $13e5	       BNE XX0BE5
+.13e3	a9 20		lda #$20	       LDA #$20      ;' '
+.13e5	20 f8 13	jsr $13f8	XX0BE5 JSR PCHAR
+.13e8	ce 56 10	dec $1056	       DEC XX0856
+.13eb	10 c2		bpl $13af	       BPL XX0BAF
+.13ed	60		rts		       RTS
+.13ee	a9 0d		lda #$0d	PRTCR LDA #$0D
+.13f0	4c f8 13	jmp $13f8	       JMP PCHAR
+.13f3	20 f6 13	jsr $13f6	XX0BF3 JSR XX0BF6
+.13f6	a9 20		lda #$20	XX0BF6 LDA #$20      ;' '
+.13f8	86 12		stx $12		PCHAR  STX $12
+.13fa	84 13		sty $13		       STY $13
+.13fc	48		pha		       PHA
+.13fd	2c 30 10	bit $1030	       BIT PRTFLG
+.1400	10 1a		bpl $141c	       BPL XX0C1C
+.1402	ad 2d 10	lda $102d	       LDA DEVIN
+.1405	c9 04		cmp #$04	       CMP #$04
+.1407	f0 0b		beq $1414	       BEQ XX0C14
+.1409	20 cc ff	jsr $ffcc	       JSR CLRCHN
+.140c	a2 04		ldx #$04	       LDX #$04
+.140e	8e 2d 10	stx $102d	       STX DEVIN
+.1411	20 c9 ff	jsr $ffc9	       JSR CHKOUT
+.1414	68		pla		XX0C14 PLA
+.1415	48		pha		       PHA
+.1416	20 d2 ff	jsr $ffd2	       JSR CHROUT
+.1419	4c 1f 14	jmp $141f	       JMP XX0C1F
+.141c	20 d2 ff	jsr $ffd2	XX0C1C JSR PRTCHR
+.141f	68		pla		XX0C1F PLA
+.1420	a4 13		ldy $13		       LDY $13
+.1422	a6 12		ldx $12		       LDX $12
+.1424	60		rts		       RTS
+.1425	20 cc ff	jsr $ffcc	XX0C25 JSR CLRCHN
+.1428	a2 07		ldx #$07	       LDX #$07
+.142a	8e 2d 10	stx $102d	       STX DEVIN
+.142d	20 c6 ff	jsr $ffc6	       JSR CHKIN
+.1430	20 cf ff	jsr $ffcf	       JSR CHRIN
+.1433	85 02		sta $02		       STA $02
+.1435	20 cf ff	jsr $ffcf	       JSR CHRIN
+.1438	85 03		sta $03		       STA $03
+.143a	c9 30		cmp #$30	       CMP #$30      ;'0'
+.143c	d0 0e		bne $144c	       BNE XX0C4C
+.143e	a5 02		lda $02		       LDA $02
+.1440	c9 30		cmp #$30	       CMP #$30      ;'0'
+.1442	d0 08		bne $144c	       BNE XX0C4C
+.1444	20 cf ff	jsr $ffcf	XX0C44 JSR CHRIN
+.1447	c9 0d		cmp #$0d	       CMP #$0D
+.1449	d0 f9		bne $1444	       BNE XX0C44
+.144b	60		rts		       RTS
+.144c	a2 01		ldx #$01	XX0C4C LDX #$01
+.144e	b5 02		lda $02,x	XX0C4E LDA $02,X
+.1450	9d 57 10	sta $1057,x	       STA XX0857,X
+.1453	ca		dex		       DEX
+.1454	10 f8		bpl $144e	       BPL XX0C4E
+.1456	a0 02		ldy #$02	       LDY #$02
+.1458	84 13		sty $13		XX0C58 STY $13
+.145a	20 cf ff	jsr $ffcf	       JSR CHRIN
+.145d	c9 0d		cmp #$0d	       CMP #$0D
+.145f	f0 08		beq $1469	       BEQ XX0C69
+.1461	a4 13		ldy $13		       LDY $13
+.1463	99 57 10	sta $1057,y	       STA XX0857,Y
+.1466	c8		iny		       INY
+.1467	d0 ef		bne $1458	       BNE XX0C58
+.1469	a9 8d		lda #$8d	XX0C69 LDA #$8D
+.146b	99 57 10	sta $1057,y	       STA XX0857,Y
+.146e	a9 10		lda #$10	       LDA #>XX0857 ;#$08
+.1470	a0 57		ldy #$57	       LDY #<XX0857 ;#$57      ;'W'
+.1472	20 7c 14	jsr $147c	       JSR XX0C7E
+.1475	20 89 15	jsr $1589	XX0C75 JSR SCRON
+.1478	20 9d 15	jsr $159d	       JSR RETZPG
+.147b	60		rts		       RTS ;JMP BASSFT
+.147c	48		pha		XX0C7E PHA
+.147d	a9 01		lda #$01	       LDA #$01
+.147f	cd 2d 10	cmp $102d	       CMP DEVIN
+.1482	f0 0f		beq $1493	       BEQ XX0C95
+.1484	98		tya		       TYA
+.1485	48		pha		       PHA
+.1486	20 cc ff	jsr $ffcc	       JSR CLRCHN
+.1489	a2 01		ldx #$01	       LDX #$01
+.148b	8e 2d 10	stx $102d	       STX DEVIN
+.148e	20 c9 ff	jsr $ffc9	       JSR CHKOUT
+.1491	68		pla		       PLA
+.1492	a8		tay		       TAY
+.1493	68		pla		XX0C95 PLA
+.1494	85 11		sta $11		       STA $11
+.1496	84 10		sty $10		       STY $10
+.1498	a0 00		ldy #$00	       LDY #$00
+.149a	b1 10		lda ($10),y	XX0C9C LDA ($10),Y
+.149c	c8		iny		       INY
+.149d	48		pha		       PHA
+.149e	29 7f		and #$7f	       AND #$7F
+.14a0	20 d2 ff	jsr $ffd2	       JSR CHROUT
+.14a3	68		pla		       PLA
+.14a4	10 f4		bpl $149a	       BPL XX0C9C
+.14a6	60		rts		       RTS
+.14a7	48		pha		XX0CA9 PHA
+.14a8	4a		lsr a		       LSR A
+.14a9	4a		lsr a		       LSR A
+.14aa	4a		lsr a		       LSR A
+.14ab	4a		lsr a		       LSR A
+.14ac	20 b2 14	jsr $14b2	       JSR XX0CB4
+.14af	68		pla		       PLA
+.14b0	29 0f		and #$0f	       AND #$0F
+.14b2	18		clc		XX0CB4 CLC
+.14b3	69 30		adc #$30	       ADC #$30      ;'0'
+.14b5	c9 3a		cmp #$3a	       CMP #$3A      ;':'
+.14b7	30 03		bmi $14bc	       BMI XX0CBE
+.14b9	18		clc		       CLC
+.14ba	69 07		adc #$07	       ADC #$07
+.14bc	4c f8 13	jmp $13f8	XX0CBE JMP PCHAR
+.14bf	20 ee 13	jsr $13ee	XX0CC1 JSR PRTCR
+.14c2	ee 33 10	inc $1033	       INC XX0833
+.14c5	ad 33 10	lda $1033	       LDA XX0833
+.14c8	c9 42		cmp #$42	       CMP #$42      ;'B'
+.14ca	d0 f3		bne $14bf	       BNE XX0CC1
+.14cc	a9 00		lda #$00	       LDA #$00
+.14ce	8d 33 10	sta $1033	       STA XX0833
+.14d1	60		rts		       RTS
+.14d2	20 ee 13	jsr $13ee	XX0CD4 JSR PRTCR
+.14d5	ee 33 10	inc $1033	       INC XX0833
+.14d8	ad 33 10	lda $1033	       LDA XX0833
+.14db	c9 3c		cmp #$3c	       CMP #$3C      ;'<'
+.14dd	d0 31		bne $1510	       BNE XX0D12
+.14df	20 bf 14	jsr $14bf	       JSR XX0CC1
+.14e2	20 d2 14	jsr $14d2	XX0CE4 JSR XX0CD4
+.14e5	8a		txa		       TXA
+.14e6	48		pha		       PHA
+.14e7	a2 00		ldx #$00	       LDX #$00
+.14e9	bd 57 15	lda $1557,x	XX0CEB LDA BANNER,X
+.14ec	f0 06		beq $14f4	       BEQ XX0CF6 ; ZERO BYTE END OF STRING
+.14ee	20 f8 13	jsr $13f8	       JSR PCHAR
+.14f1	e8		inx		       INX        ; INC CHAR POINTER
+.14f2	d0 f5		bne $14e9	       BNE XX0CEB
+.14f4	ae 31 10	ldx $1031	XX0CF6 LDX XX0831
+.14f7	ad 32 10	lda $1032	       LDA XX0832
+.14fa	20 a1 13	jsr $13a1	       JSR XX0BA1
+.14fd	ee 31 10	inc $1031	       INC XX0831
+.1500	d0 03		bne $1505	       BNE XX0D07
+.1502	ee 32 10	inc $1032	       INC XX0832
+.1505	20 d2 14	jsr $14d2	XX0D07 JSR XX0CD4
+.1508	20 d2 14	jsr $14d2	       JSR XX0CD4
+.150b	20 d2 14	jsr $14d2	       JSR XX0CD4
+.150e	68		pla		       PLA
+.150f	aa		tax		       TAX
+.1510	60		rts		XX0D12 RTS
+>1511	0d				MESSG  .BYTE $0D
+>1512	43 52 4f 53 53 20 52 45		XX0D14 .TEXT 'CROSS REFERENCE'
+>151a	46 45 52 45 4e 43 45
+>1521	0d				XX0D23 .BYTE $0D
+>1522	0d				XX0D24 .BYTE $0D
+>1523	0d				XX0D25 .BYTE $0D
+>1524	48 41 52 44 20 43 4f 50		XX0D26 .TEXT 'HARD COPY (CR/Y OR N)?'
+>152c	59 20 28 43 52 2f 59 20 4f 52 20 4e 29 3f
+>153a	a0				XX0D3C .BYTE $A0
+>153b	30 3a 58 52 4c 4c 30 30		XRLL00 .TEXT '0:XRLL0000,S,R' ;XX0D3D
+>1543	30 30 2c 53 2c 52
+>1549	30 3a 58 52 46 46 30 30		XRFF00 .TEXT '0:XRFF0000,S,W' ;XX0D4B
+>1551	30 30 2c 53 2c 57
+>1557	43 52 4f 53 53 20 52 45		BANNER .TEXT 'CROSS REFERENCE......PAGE'
+>155f	46 45 52 45 4e 43 45 2e 2e 2e 2e 2e 2e 50 41 47
+>156f	45
+>1570	00				       .BYTE $00
+>1571	01				XX0D73 .BYTE $01 ;1
+>1572	0a				       .BYTE $0A ;10
+>1573	64				       .BYTE $64 ;100
+>1574	e8				       .BYTE $E8 ;1000
+>1575	10				       .BYTE $10 ;10000
+>1576	00				XX0D78 .BYTE $00 ;1
+>1577	00				       .BYTE $00 ;10
+>1578	00				       .BYTE $00 ;100
+>1579	03				       .BYTE $03 ;1000
+>157a	27				       .BYTE $27 ;10000
+.157b	ad 30 10	lda $1030	SCROFF LDA PRTFLG
+.157e	10 08		bpl $1588	       BPL XX0D8A
+.1580	ad 11 d0	lda $d011	       LDA SCREG
+.1583	29 ef		and #$ef	       AND #$EF
+.1585	8d 11 d0	sta $d011	       STA SCREG
+.1588	60		rts		XX0D8A RTS
+.1589	ad 11 d0	lda $d011	SCRON  LDA SCREG
+.158c	09 10		ora #$10	       ORA #$10
+.158e	8d 11 d0	sta $d011	       STA SCREG
+.1591	60		rts		       RTS
+.1592	a2 18		ldx #$18	SAVZPG LDX #$18
+.1594	b5 02		lda $02,x	XX0D96 LDA $02,X
+.1596	9d 15 10	sta $1015,x	       STA ZPGSTR,X
+.1599	ca		dex		       DEX
+.159a	10 f8		bpl $1594	       BPL XX0D96
+.159c	60		rts		       RTS
+.159d	a2 18		ldx #$18	RETZPG LDX #$18
+.159f	bd 15 10	lda $1015,x	XX0DA1 LDA ZPGSTR,X
+.15a2	95 02		sta $02,x	       STA $02,X
+.15a4	ca		dex		       DEX
+.15a5	10 f8		bpl $159f	       BPL XX0DA1
+.15a7	60		rts		       RTS
+=$15a8					XX0DAA=*
+=7592					XX15AA=*
+
+;******  Return to file: pcrossref.asm
+
+
+;******  End of listing

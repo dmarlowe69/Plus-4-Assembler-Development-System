@@ -1,0 +1,362 @@
+
+; 64tass Turbo Assembler Macro V1.53.1515 listing file
+; 64tass -L loloader.lst -o loloader.prg loloader.asm
+; Fri Dec 22 21:48:12 2017
+
+;Offset	;Hex		;Monitor	;Source
+
+;******  Processing input file: loloader.asm
+
+=1					BSTUB = 1
+>1001	0d 10				 .WORD BASIC    ;LINE LINK POINTER
+>1003	0a 00				 .BYTE $0A,$00  ;LINE NUMBER (10)
+>1005	9e				 .BYTE 158      ;SYS COMMAND TOKEN
+>1006	28 34 31 31 31 29		 .TEXT '(4111)' ;CALL TO $100F
+>100c	00				 .BYTE $00      ;END OF LINE
+.100d					BASIC
+>100d	00 00				 .BYTE $00,$00  ;END OF BASIC
+=$4c					TITLE1=$4C ;'L'
+=$4f					TITLE2=$4F ;'O'
+
+;******  Processing file: loader.asm
+
+=$90					STATUS=$90      ;STATUS BYTE
+=$dd					ZEROPG=$DD ;$FB ;ZERO PAGE POINTER
+=$ff8a					RESTOR =$FF8A ;RESTORES VECTORS TO INITIAL STATE
+=$ff81					CINT   =$FF81 ;INITIALIZES SCREEN EDITOR
+=$ff84					IOINIT =$FF84 ;INITIALIZES I/O DEVICES
+=$ffe1					STOP  =$FFE1  ;CHECK FOR STOP
+=$ffba					SETLFS=$FFBA  ;SET LOGICAL FILE
+=$ffbd					SETNAM=$FFBD  ;SET FILENAME
+=$ffc0					OPEN  =$FFC0  ;OPEN FILE
+=$ffc3					CLOSE =$FFC3  ;CLOSE LOGICAL FILE
+=$ffc6					CHKIN =$FFC6  ;OPEN INPUT CHANNEL
+=$ffcc					CLRCHN=$FFCC  ;RESET I/O CHANNELS
+=$ffcf					CHRIN =$FFCF  ;GET KEYBOARD INPUT
+=$ffd2					CHROUT=$FFD2  ;OUTPUT CHARACTER
+.100f	20 cc ff	jsr $ffcc	LOADER JSR CLRCHN  ;RSET I/O
+.1012	a9 00		lda #$00	 LDA #$00        ;ZERO BYTE
+.1014	8d 70 12	sta $1270	 STA RECORD      ;RECORD COUNT
+.1017	8d 71 12	sta $1271	 STA RECORD+1    ;
+.101a	8d 6d 12	sta $126d	 STA OFFSET      ;LOAD OFFSET
+.101d	8d 6e 12	sta $126e	 STA OFFSET+1    ;
+.1020	85 90		sta $90		 STA STATUS      ;I/O STATUS
+.1022	a2 4b		ldx #$4b	 LDX #MSG7-MSG1  ;OFFSET FOR TITLE
+.1024	20 ad 11	jsr $11ad	 JSR PRINT       ;PRINT TITLE
+.1027	20 f1 11	jsr $11f1	 JSR GETOFF      ;GET LOAD OFFSET
+.102a	90 e3		bcc $100f	 BCC LOADER      ;IF ERROR RESET
+.102c	a2 a5		ldx #$a5	 LDX #MSG8-MSG1  ;FILE NAME
+.102e	20 ad 11	jsr $11ad	 JSR PRINT       ;PRINT IT
+.1031	a2 28		ldx #$28	 LDX #$28        ;CHAR COUNT
+.1033	8e 72 12	stx $1272	 STX COUNT       ;STORE IN COUNT
+.1036	ce 72 12	dec $1272	SPACE DEC COUNT  ;DEC COUNT
+.1039	f0 d4		beq $100f	 BEQ LOADER      ;IF ZERO RESET
+.103b	20 cf ff	jsr $ffcf	 JSR CHRIN       ;GET CHAR
+.103e	c9 20		cmp #$20	 CMP #' '        ;IS IT A SPACE
+.1040	f0 f4		beq $1036	 BEQ SPACE       ;IF SO LOOP
+.1042	c9 0d		cmp #$0d	 CMP #$0D        ;IS FIRST CR?
+.1044	d0 03		bne $1049	 BNE NAME        ;IF NOT BRANCH
+.1046	4c 87 11	jmp $1187	 JMP QUIT        ;QUIT LOADER
+.1049	a2 00		ldx #$00	NAME LDX #$00    ;ZERO BYTE
+.104b	8e 86 12	stx $1286	 STX COUNT1      ;CHAR COUNT
+.104e	f0 07		beq $1057	 BEQ CRLF        ;BRANCH ALWAYS
+.1050	20 cf ff	jsr $ffcf	GETC  JSR CHRIN  ;GET NEXT CHAR
+.1053	c9 20		cmp #$20	 CMP #' '        ;IS IT A SPACE?
+.1055	f0 15		beq $106c	 BEQ DNAME       ;NONE ALLOWED
+.1057	c9 0d		cmp #$0d	CRLF CMP #$0D    ;IS IT CR?
+.1059	f0 11		beq $106c	 BEQ DNAME       ;END OF NAME
+.105b	ae 86 12	ldx $1286	 LDX COUNT1      ;GET CHAR COUNT
+.105e	e0 0f		cpx #$0f	 CPX #$0F        ;15 CHARS?
+.1060	f0 ad		beq $100f	 BEQ LOADER      ;RESTART LOADER
+.1062	9d 74 12	sta $1274,x	 STA BUF,X       ;STORE CHAR
+.1065	e8		inx		 INX             ;INC OFFSET
+.1066	8e 86 12	stx $1286	 STX COUNT1      ;CHAR COUNT
+.1069	4c 50 10	jmp $1050	 JMP GETC        ;GET NEXT CHAR
+.106c	a9 2c		lda #$2c	DNAME LDA #',' ;ASCII ","
+.106e	9d 74 12	sta $1274,x	 STA BUF,X     ;PUT IN BUFFER
+.1071	e8		inx		 INX           ;INC OFFSET
+.1072	a9 53		lda #$53	 LDA #'S'      ;FOR SEQ FILE
+.1074	9d 74 12	sta $1274,x	 STA BUF,X     ;PUT IN BUFFER
+.1077	e8		inx		 INX           ;INC OFFSET
+.1078	8e 86 12	stx $1286	 STX COUNT1    ;SAVE NUMBER CHARS
+.107b	a9 0d		lda #$0d	 LDA #$0D      ;ASCII CR
+.107d	20 d2 ff	jsr $ffd2	 JSR CHROUT    ;PRINT IT
+.1080	a9 07		lda #$07	 LDA #$07    ;FILE #7
+.1082	a2 08		ldx #$08	 LDX #$08    ;DEVICE #8
+.1084	a0 0f		ldy #$0f	 LDY #$0F    ;SEC ADR #15
+.1086	20 ba ff	jsr $ffba	 JSR SETLFS  ;SET FILE PARA
+.1089	a9 49		lda #$49	 LDA #'I'    ;ASCII I
+.108b	8d 6b 12	sta $126b	 STA USER    ;STORE IN BUF1
+.108e	a9 30		lda #$30	 LDA #'0'    ;ASCII ZERO
+.1090	8d 6c 12	sta $126c	 STA USER+1  ;STORE IN BUF1
+.1093	a2 6b		ldx #$6b	 LDX #<USER  ;LOW FILENAME
+.1095	a0 12		ldy #$12	 LDY #>USER  ;HIGH FILENAME
+.1097	a9 02		lda #$02	 LDA #$02    ;LENGTH OF NAME
+.1099	20 bd ff	jsr $ffbd	 JSR SETNAM  ;SET FILENAME
+.109c	20 c0 ff	jsr $ffc0	 JSR OPEN    ;OPEN FILE
+.109f	a5 90		lda $90		 LDA STATUS  ;GET STATUS
+.10a1	f0 04		beq $10a7	 BEQ OK      ;ZERO IF OK
+.10a3	c9 40		cmp #$40	 CMP #$40    ;IS IT 64?
+.10a5	d0 23		bne $10ca	 BNE ERROR1  ;ERROR
+.10a7	a9 07		lda #$07	OK LDA #$07  ;FILE #7
+.10a9	20 c3 ff	jsr $ffc3	 JSR CLOSE   ;CLOSE FILE
+.10ac	a9 07		lda #$07	 LDA #$07    ;FILE #7
+.10ae	a2 08		ldx #$08	 LDX #$08    ;DEVICE #8
+.10b0	a0 07		ldy #$07	 LDY #$07    ;SECOND ADDRESS
+.10b2	20 ba ff	jsr $ffba	 JSR SETLFS  ;SET FILE
+.10b5	a2 74		ldx #$74	 LDX #<BUF   ;LOW FILENAME
+.10b7	a0 12		ldy #$12	 LDY #>BUF   ;HIGH FILENAME
+.10b9	ad 86 12	lda $1286	 LDA COUNT1  ;GET LENGTH
+.10bc	20 bd ff	jsr $ffbd	 JSR SETNAM  ;SET FILENAME
+.10bf	20 c0 ff	jsr $ffc0	 JSR OPEN        ;OPEN FILE
+.10c2	a5 90		lda $90		 LDA STATUS      ;CHECK STATUS
+.10c4	f0 07		beq $10cd	 BEQ OK3         ;IF ZERO OK
+.10c6	c9 40		cmp #$40	 CMP #$40        ;END OF FILE?
+.10c8	f0 03		beq $10cd	 BEQ OK3         ;IF SO OK
+.10ca	4c 76 11	jmp $1176	ERROR1 JMP ERROR ;FILE ERROR
+.10cd	a2 07		ldx #$07	OK3 LDX #$07     ;FILE #7
+.10cf	20 c6 ff	jsr $ffc6	 JSR CHKIN       ;INPUT FILE
+.10d2	20 e1 ff	jsr $ffe1	CKSTOP JSR STOP  ;CHECK STOP
+.10d5	d0 03		bne $10da	 BNE OK2         ;IF NOT GO ON.
+.10d7	4c 7f 11	jmp $117f	 JMP BREAK       ;BREAK ERROR
+.10da	20 ce 11	jsr $11ce	OK2  JSR INPUT   ;GET BYTE
+.10dd	c9 3b		cmp #$3b	 CMP #';'        ;START OF RECORD
+.10df	d0 f1		bne $10d2	 BNE CKSTOP      ;IF NOT TRY AGAIN
+.10e1	a9 00		lda #$00	 LDA #$00        ;ZERO BYTE
+.10e3	8d 6b 12	sta $126b	 STA USER        ;ZERO CHECK LOW
+.10e6	8d 6c 12	sta $126c	 STA USER+1      ;ZERO CHECK HIGH
+.10e9	8d 72 12	sta $1272	 STA COUNT       ;ZERO BYTE COUNT
+.10ec	20 10 12	jsr $1210	 JSR GETBYT      ;GET BYTE
+.10ef	d0 16		bne $1107	 BNE RECGOD      ;<>0 NOT LAST
+.10f1	20 10 12	jsr $1210	 JSR GETBYT      ;GET RECORD COUNT
+.10f4	cd 71 12	cmp $1271	 CMP RECORD+1    ;SAME AS REC HIGH
+.10f7	f0 03		beq $10fc	 BEQ NEXCT       ;IF EQUAL NEXT
+.10f9	4c 82 11	jmp $1182	 JMP RECERR      ;BAD REC COUNT
+.10fc	20 10 12	jsr $1210	NEXCT JSR GETBYT ;GET RECORD COUNT
+.10ff	cd 70 12	cmp $1270	 CMP RECORD      ;SAME AS REC LOW
+.1102	d0 7e		bne $1182	 BNE RECERR      ;BAD REC COUNT
+.1104	4c 87 11	jmp $1187	 JMP QUIT        ;ALL LOADED
+.1107	8d 6f 12	sta $126f	RECGOD STA NUMBYT ;STORE NUM BYTES
+.110a	ee 70 12	inc $1270	 INC RECORD       ;INC REC COUNT
+.110d	d0 03		bne $1112	 BNE SKPIN1       ;ZERO?
+.110f	ee 71 12	inc $1271	 INC RECORD+1     ;IF SO INC HIGH
+.1112	20 e4 11	jsr $11e4	SKPIN1 JSR SUMBYT ;SUM BYTES
+.1115	20 10 12	jsr $1210	 JSR GETBYT       ;GET HIH ADDRESS
+.1118	48		pha		 PHA              ;SAVE
+.1119	18		clc		 CLC              ;CLEAR CARRY
+.111a	6d 6e 12	adc $126e	 ADC OFFSET+1     ;ADD OFFSET
+.111d	85 de		sta $de		 STA ZEROPG+1     ;STORE IN POINT
+.111f	68		pla		 PLA              ;PULL ADDRESS
+.1120	20 e4 11	jsr $11e4	 JSR SUMBYT       ;SUM BYTES
+.1123	20 10 12	jsr $1210	 JSR GETBYT       ;GET LOW ADDRESS
+.1126	48		pha		 PHA              ;STORE
+.1127	18		clc		 CLC              ;CLEAR CARRY
+.1128	6d 6d 12	adc $126d	 ADC OFFSET       ;ADD OFFSET
+.112b	85 dd		sta $dd		 STA ZEROPG       ;STORE IN POINT
+.112d	90 02		bcc $1131	 BCC SKPINC       ;IF C=0 SKIP
+.112f	e6 de		inc $de		 INC ZEROPG+1     ;INC HIH ADDRESS
+.1131	68		pla		SKPINC PLA        ;PULL ADDRRESS
+.1132	20 e4 11	jsr $11e4	 JSR SUMBYT       ;SUM BYTES
+.1135	ad 70 12	lda $1270	 LDA RECORD       ;GET REC COUNT
+.1138	c9 01		cmp #$01	 CMP #$01         ;FIRST ONE
+.113a	d0 08		bne $1144	 BNE MORBYT       ;IF NOT GO ON
+.113c	a9 0d		lda #$0d	 LDA #$0D         ;ASCII CR
+.113e	20 d2 ff	jsr $ffd2	 JSR CHROUT       ;PRINT IT
+.1141	20 3a 12	jsr $123a	 JSR PRTADD       ;PRINT ADDRESS
+.1144	20 10 12	jsr $1210	MORBYT JSR GETBYT ;GET DATA BYTE
+.1147	ac 72 12	ldy $1272	 LDY COUNT        ;GET BYTE COUNT
+.114a	8c 86 12	sty $1286	 STY COUNT1       ;SAVE COUNT
+.114d	ee 72 12	inc $1272	 INC COUNT        ;INC COUNT
+.1150	91 dd		sta ($dd),y	 STA (ZEROPG),Y   ;STORE DATA
+.1152	d1 dd		cmp ($dd),y	 CMP (ZEROPG),Y   ;CHECK DATA
+.1154	d0 23		bne $1179	 BNE NONRAM       ;IF <> ERROR
+.1156	20 e4 11	jsr $11e4	 JSR SUMBYT       ;SUM BYTES
+.1159	ce 6f 12	dec $126f	 DEC NUMBYT       ;DEC BYTE COUNT
+.115c	d0 e6		bne $1144	 BNE MORBYT       ;IF <>0 MORE
+.115e	20 10 12	jsr $1210	 JSR GETBYT       ;GET HIH CHECK
+.1161	cd 6c 12	cmp $126c	 CMP USER+1       ;COMPARE, SAME?
+.1164	d0 16		bne $117c	 BNE CHKERR       ;IF NOT ERROR
+.1166	20 10 12	jsr $1210	 JSR GETBYT       ;GET LOW CHECK
+.1169	cd 6b 12	cmp $126b	 CMP USER         ;COMPARE, SAME?
+.116c	d0 0e		bne $117c	 BNE CHKERR       ;IF NOT ERROR
+.116e	a9 2e		lda #$2e	 LDA #'.'         ;ASCII PERIOD
+.1170	20 d2 ff	jsr $ffd2	 JSR CHROUT       ;PRINT IT
+.1173	4c d2 10	jmp $10d2	 JMP CKSTOP       ;NEXT RECORD
+.1176	a2 40		ldx #$40	ERROR LDX #MSG6-MSG1  ;FILE ERROR
+>1178	2c				.BYTE $2C
+.1179	a2 24		ldx #$24	NONRAM LDX #MSG4-MSG1 ;NON-RAM LOAD
+>117b	2c				.BYTE $2C
+.117c	a2 31		ldx #$31	CHKERR LDX #MSG5-MSG1 ;CHECKSUM ERROR
+>117e	2c				.BYTE $2C
+.117f	a2 11		ldx #$11	BREAK LDX #MSG2-MSG1 ;BREAK ERROR
+>1181	2c				.BYTE $2C
+.1182	a2 00		ldx #$00	RECERR LDX #$00 ;BAD RECORD COUNT
+.1184	20 ad 11	jsr $11ad	 JSR PRINT      ;PRINT MESSAGE
+.1187	20 cc ff	jsr $ffcc	QUIT JSR CLRCHN ;RESET I/O
+.118a	a9 07		lda #$07	 LDA #$07       ;FILE #7
+.118c	20 c3 ff	jsr $ffc3	 JSR CLOSE      ;CLOSE
+.118f	18		clc		 CLC            ;CLEAR CARRY
+.1190	ad 86 12	lda $1286	 LDA COUNT1     ;GET LAST OFFSET
+.1193	65 dd		adc $dd		 ADC ZEROPG     ;ADD TO LAST REC
+.1195	85 dd		sta $dd		 STA ZEROPG     ;LOAD ADDRESS
+.1197	a5 de		lda $de		 LDA ZEROPG+1   ;
+.1199	69 00		adc #$00	 ADC #$00       ;
+.119b	85 de		sta $de		 STA ZEROPG+1   ;
+.119d	a9 0d		lda #$0d	 LDA #$0D       ;ASCII CR
+.119f	20 d2 ff	jsr $ffd2	 JSR CHROUT     ;PRINT IT
+.11a2	20 3a 12	jsr $123a	 JSR PRTADD     ;PRINT ADDRESS
+.11a5	a2 18		ldx #$18	 LDX #MSG3-MSG1 ;END OF LOAD
+.11a7	20 ad 11	jsr $11ad	 JSR PRINT      ;PRINT IT
+.11aa	4c 65 12	jmp $1265	 JMP INIT       ;BACK TO BASIC
+.11ad	8e 72 12	stx $1272	PRINT STX COUNT ;PUT X IN COUNT
+.11b0	ae 72 12	ldx $1272	PLOOP LDX COUNT ;LOAD X FROM COUNT
+.11b3	bd 87 12	lda $1287,x	 LDA MSG1,X     ;LOAD CHAR
+.11b6	08		php		 PHP            ;SAVE STATUS FLAG
+.11b7	29 7f		and #$7f	 AND #$7F       ;MASK BIT 8
+.11b9	20 d2 ff	jsr $ffd2	 JSR CHROUT     ;PRINT CHAR
+.11bc	ee 72 12	inc $1272	 INC COUNT      ;INC OFFSET
+.11bf	28		plp		 PLP            ;GET STATUS FLAG
+.11c0	10 ee		bpl $11b0	 BPL PLOOP      ;IF BIT 8 ZERO
+.11c2	60		rts		 RTS            ;RETURN
+.11c3	c9 3a		cmp #$3a	BYTASC CMP #$3A ;IS CHAR >9
+.11c5	08		php		 PHP            ;PUSH P
+.11c6	29 0f		and #$0f	 AND #$0F       ;MASK HIGH BYTE
+.11c8	28		plp		 PLP            ;PULL P
+.11c9	90 02		bcc $11cd	 BCC EXIT1      ;IF <=9 OK
+.11cb	69 08		adc #$08	 ADC #$08       ;ADD OFFSET
+.11cd	60		rts		EXIT1 RTS       ;RETURN
+.11ce	20 cf ff	jsr $ffcf	INPUT JSR CHRIN ;INPUT CHAR
+.11d1	48		pha		 PHA            ;STORE
+.11d2	a5 90		lda $90		 LDA STATUS     ;GET STATUS BYTE
+.11d4	f0 04		beq $11da	 BEQ JUMP       ;IF ZERO OK
+.11d6	c9 40		cmp #$40	 CMP #$40       ;END OF FILE?
+.11d8	d0 02		bne $11dc	 BNE DISKER     ;IF NOT ERROR
+.11da	68		pla		JUMP PLA        ;GET CHAR
+.11db	60		rts		 RTS            ;RETURN
+.11dc	68		pla		DISKER PLA      ;PULL INPUT CHAR
+.11dd	68		pla		 PLA            ;PULL RETURN
+.11de	68		pla		 PLA            ;
+.11df	68		pla		 PLA            ;PULL RETURN
+.11e0	68		pla		 PLA            ;
+.11e1	4c 76 11	jmp $1176	 JMP ERROR      ;GOTO ERROR HANDLE
+.11e4	18		clc		SUMBYT CLC      ;CLEAR CARRY
+.11e5	6d 6b 12	adc $126b	 ADC USER       ;ADD BYTE OF CHECK
+.11e8	8d 6b 12	sta $126b	 STA USER       ;REPLACE BYTE
+.11eb	90 03		bcc $11f0	 BCC EXIT       ;IF NO CARRY OK
+.11ed	ee 6c 12	inc $126c	 INC USER+1     ;INC HIGH BYTE
+.11f0	60		rts		EXIT RTS        ;RETURN
+.11f1	20 ce 11	jsr $11ce	GETOFF JSR INPUT ;GET CHAR
+.11f4	c9 0d		cmp #$0d	 CMP #$0D        ;IS IT CR?
+.11f6	f0 14		beq $120c	 BEQ OFFOK       ;IF SO NO OFFSET
+.11f8	c9 20		cmp #$20	 CMP #' '        ;IS IT SPACE?
+.11fa	f0 12		beq $120e	 BEQ OFFERR      ;IF SO ERROR
+.11fc	20 18 12	jsr $1218	 JSR CHCKSP      ;NEXT CHAR
+.11ff	90 0d		bcc $120e	 BCC OFFERR      ;MORE SPACES?
+.1201	8d 6e 12	sta $126e	 STA OFFSET+1    ;STORE HIH OFFSET
+.1204	20 10 12	jsr $1210	 JSR GETBYT      ;GET NEXT INPUT
+.1207	90 05		bcc $120e	 BCC OFFERR      ;ERROR?
+.1209	8d 6d 12	sta $126d	 STA OFFSET      ;STORE LOW OFFSET
+.120c	38		sec		OFFOK SEC        ;SET CARRY OK
+.120d	60		rts		 RTS             ;RETURN
+.120e	18		clc		OFFERR CLC       ;CLEAR CARRY ERR
+.120f	60		rts		 RTS             ;RETURN
+.1210	a9 00		lda #$00	GETBYT LDA #$00  ;ZERO BYTE
+.1212	8d 73 12	sta $1273	 STA TEMP        ;STORE IN TEMP
+.1215	20 ce 11	jsr $11ce	 JSR INPUT       ;GET CHAR INPUT
+.1218	c9 20		cmp #$20	CHCKSP CMP #' '  ;IS IT A SPACE?
+.121a	d0 09		bne $1225	 BNE CREBYT      ;IF NOT CREATE
+.121c	20 ce 11	jsr $11ce	 JSR INPUT       ;GET CHAR INPUT
+.121f	c9 20		cmp #$20	 CMP #' '        ;IS IT S SPACE?
+.1221	d0 0f		bne $1232	 BNE NEXBYT      ;IF NOT GO ON
+.1223	18		clc		 CLC             ;FLAG ERROR
+.1224	60		rts		 RTS             ;RETURN
+.1225	20 c3 11	jsr $11c3	CREBYT JSR BYTASC ;GET HIGH NIBBLE
+.1228	0a		asl a		 ASL A            ;LEFT JUSTIFY
+.1229	0a		asl a		 ASL A            ; ASCII CHAR
+.122a	0a		asl a		 ASL A            ;  IN HIGH
+.122b	0a		asl a		 ASL A            ;   NIBBLE
+.122c	8d 73 12	sta $1273	 STA TEMP         ;STORE
+.122f	20 ce 11	jsr $11ce	 JSR INPUT        ;GET INPUT
+.1232	20 c3 11	jsr $11c3	NEXBYT JSR BYTASC ;CREATE LOW NIB
+.1235	0d 73 12	ora $1273	 ORA TEMP         ;PUT IN PLACE
+.1238	38		sec		 SEC              ;FLAG OK
+.1239	60		rts		 RTS              ;RETURN
+.123a	a5 dd		lda $dd		PRTADD LDA ZEROPG ;LOW ADDRESS
+.123c	48		pha		 PHA          ;STACK IT
+.123d	a5 de		lda $de		 LDA ZEROPG+1 ;GET HIGH BYTE
+.123f	20 43 12	jsr $1243	 JSR RIGHT    ;PRINT IT
+.1242	68		pla		 PLA          ;PULL LOW BYTE
+.1243	48		pha		RIGHT PHA     ;STACK BYTE
+.1244	4a		lsr a		 LSR A        ;RIGHT JUSTIFY
+.1245	4a		lsr a		 LSR A        ; BYTE IN LOW
+.1246	4a		lsr a		 LSR A        ;  NIBBLE
+.1247	4a		lsr a		 LSR A        ;
+.1248	20 5b 12	jsr $125b	 JSR CHGASC   ;CONVERT BYTE
+.124b	aa		tax		 TAX          ;STORE IN X
+.124c	68		pla		 PLA          ;PULL BYTE
+.124d	29 0f		and #$0f	 AND #$0F     ;MASK HIGH
+.124f	20 5b 12	jsr $125b	 JSR CHGASC   ;CONVERT BYTE
+.1252	48		pha		 PHA          ;STACK RESULT
+.1253	8a		txa		 TXA          ;GET HIGH NIBBLE
+.1254	20 d2 ff	jsr $ffd2	 JSR CHROUT   ;PRINT IT
+.1257	68		pla		 PLA          ;GET LOW NIBBLE
+.1258	4c d2 ff	jmp $ffd2	 JMP CHROUT   ;PRINT AND RETURN
+.125b	18		clc		CHGASC CLC      ;CLEAR CARRY
+.125c	69 f6		adc #$f6	 ADC #$F6       ;ADD OFFSET
+.125e	90 02		bcc $1262	 BCC NOSIX      ;IF C=0 OK
+.1260	69 06		adc #$06	 ADC #$06       ;ADD OFFSSET
+.1262	69 3a		adc #$3a	NOSIX ADC #$3A  ;ADD OFFSET
+.1264	60		rts		 RTS            ;RETURN
+=$1265					INIT = *
+.1265	a9 0d		lda #$0d	 LDA #$0D
+.1267	20 d2 ff	jsr $ffd2	 JSR CHROUT
+.126a	60		rts		 RTS
+>126b	aa aa				USER .WORD $AAAA   ;CHECKSUM VALUE
+>126d	aa aa				OFFSET .WORD $AAAA ;LOAD OFFSET
+>126f	aa				NUMBYT .BYTE $AA   ;NUMBER BYTES
+>1270	aa aa				RECORD .WORD $AAAA ;RECORD NUMBER
+>1272	aa				COUNT .BYTE $AA    ;COUNTER
+>1273	aa				TEMP .BYTE $AA     ;TEMPOARY
+>1274	aa aa aa aa aa aa		BUF .BYTE $AA,$AA,$AA,$AA,$AA,$AA
+>127a	aa aa aa aa aa aa		.BYTE $AA,$AA,$AA,$AA,$AA,$AA
+>1280	aa aa aa aa aa aa		.BYTE $AA,$AA,$AA,$AA,$AA,$AA
+>1286	aa				COUNT1 .BYTE $AA   ;COUNTER
+>1287	0d				MSG1 .BYTE $0D
+>1288	42 41 44 20 52 45 43 4f		.TEXT 'BAD RECORD COUN',$D4
+>1290	52 44 20 43 4f 55 4e d4
+>1298	0d				MSG2 .BYTE $0D
+>1299	42 52 45 41 4b 8d		.TEXT 'BREAK',$8D
+>129f	0d				MSG3 .BYTE $0D
+>12a0	45 4e 44 20 4f 46 20 4c		.TEXT 'END OF LOA',$C4
+>12a8	4f 41 c4
+>12ab	0d				MSG4 .BYTE $0D
+>12ac	4e 4f 4e 2d 52 41 4d 20		.TEXT 'NON-RAM LOA',$C4
+>12b4	4c 4f 41 c4
+>12b8	0d				MSG5 .BYTE $0D
+>12b9	43 48 45 43 4b 53 55 4d		.TEXT 'CHECKSUM ERRO',$D2
+>12c1	20 45 52 52 4f d2
+>12c7	0d				MSG6 .BYTE $0D
+>12c8	46 49 4c 45 20 45 52 52		.TEXT 'FILE ERRO',$D2
+>12d0	4f d2
+>12d2	0d 0d 0d			MSG7 .BYTE $0D,$0D,$0D
+>12d5	4c 4f				.BYTE TITLE1,TITLE2
+>12d7	4c 4f 41 44 2e 43 36 34		.TEXT 'LOAD.C64 V072882'
+>12df	20 56 30 37 32 38 38 32
+>12e7	0d				.BYTE $0D
+>12e8	28 43 29 20 31 39 38 32		.TEXT '(C) 1982 BY COMMODORE BUSINESS '
+>12f0	20 42 59 20 43 4f 4d 4d 4f 44 4f 52 45 20 42 55
+>1300	53 49 4e 45 53 53 20
+>1307	4d 41 43 48 49 4e 45 53		.TEXT 'MACHINES',$0D,$0D,$0D
+>130f	0d 0d 0d
+>1312	48 45 58 20 4f 46 46 53		.TEXT 'HEX OFFSET (CR IF NONE) '
+>131a	45 54 20 28 43 52 20 49 46 20 4e 4f 4e 45 29 20
+>132a	3f a0				.TEXT '?',$A0
+>132c	0d				MSG8 .BYTE $0D
+>132d	4f 42 4a 45 43 54 20 46		.TEXT 'OBJECT FILE NAME ?',$A0
+>1335	49 4c 45 20 4e 41 4d 45 20 3f a0
+>1340	aa aa aa aa aa aa		.BYTE $AA,$AA,$AA,$AA,$AA,$AA
+
+;******  Return to file: loloader.asm
+
+
+;******  End of listing

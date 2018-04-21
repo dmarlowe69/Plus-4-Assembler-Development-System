@@ -1,0 +1,15 @@
+
+C:\Users\Denton\Desktop\CommodoreMacro Assembler DevelopmentSystem\MADS Plus 4 Assembler Plus 4\leloadertass>64tass leloader.asm -L leloader.lst -o leloader.prg  
+64tass Turbo Assembler Macro V1.53.1515
+64TASS comes with ABSOLUTELY NO WARRANTY; This is free software, and you
+are welcome to redistribute it under certain conditions; See LICENSE!
+
+Assembling file:   leloader.asm
+Assembling file:   loader.asm
+Assembling file:   savobj.asm
+Error messages:    None
+Warning messages:  None
+Passes:            3
+Memory range:      $1001-$13d8   $03d8
+
+C:\Users\Denton\Desktop\CommodoreMacro Assembler DevelopmentSystem\MADS Plus 4 Assembler Plus 4\leloadertass>rem pause 
