@@ -1,0 +1,14 @@
+
+C:\Users\Denton\Desktop\CommodoreMacro Assembler DevelopmentSystem\MADS Plus 4 Assembler Plus 4\comparetass>64tass pcompare.asm -L pcompare.lst -o pcompare.prg  
+64tass Turbo Assembler Macro V1.53.1515
+64TASS comes with ABSOLUTELY NO WARRANTY; This is free software, and you
+are welcome to redistribute it under certain conditions; See LICENSE!
+
+Assembling file:   pcompare.asm
+Assembling file:   compare.asm
+Error messages:    None
+Warning messages:  None
+Passes:            3
+Memory range:      $1001-$1517   $0517
+
+C:\Users\Denton\Desktop\CommodoreMacro Assembler DevelopmentSystem\MADS Plus 4 Assembler Plus 4\comparetass>rem pause 

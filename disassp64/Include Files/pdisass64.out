@@ -1,0 +1,23 @@
+
+C:\Users\Denton\Desktop\disassp4 2017 tass 2-12-18\Include Files>64tass pdisass64.asm -L pdisass64.lst -o pdisass64.prg  
+64tass Turbo Assembler Macro V1.53.1515
+64TASS comes with ABSOLUTELY NO WARRANTY; This is free software, and you
+are welcome to redistribute it under certain conditions; See LICENSE!
+
+Assembling file:   pdisass64.asm
+Assembling file:   dis.asm
+Assembling file:   option.asm
+Assembling file:   util.asm
+Assembling file:   mode.asm
+Assembling file:   internal.asm
+Assembling file:   asc.asm
+Assembling file:   table.asm
+Assembling file:   symbol.asm
+Error messages:    None
+Warning messages:  None
+Passes:            3
+Memory range:      $1001-$10f1   $00f1
+Memory range:      $11f2-$2f41   $1d50
+Memory range:      $3742-$38f3   $01b2
+
+C:\Users\Denton\Desktop\disassp4 2017 tass 2-12-18\Include Files>rem pause 
